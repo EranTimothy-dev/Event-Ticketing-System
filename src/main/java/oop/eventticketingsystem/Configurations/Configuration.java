@@ -2,6 +2,7 @@ package oop.eventticketingsystem.Configurations;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import oop.eventticketingsystem.Model;
 
 import java.io.*;
 
@@ -39,13 +40,15 @@ public class Configuration implements Serializable {
 
     public static Configuration loadConfig(){
         try(Reader reader = new FileReader(CONFIG_FILE)){
-            Configuration config = gson.fromJson(reader, Configuration.class);
+            Configuration config = Model.getConfiguration();
+            config = gson.fromJson(reader, Configuration.class);
             return config;
         } catch (IOException e){
             System.out.println("Error while loading configuration");
             throw new RuntimeException(e);
         }
     }
+
 
 
     public int getNumberOfTickets() {

@@ -1,9 +1,4 @@
-package oop.eventticketingsystem;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static java.util.Collections.synchronizedList;
+package oop.eventticketingsystem.Tickets;
 
 public interface TicketHandling {
     

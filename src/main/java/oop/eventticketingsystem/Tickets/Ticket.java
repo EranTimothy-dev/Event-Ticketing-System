@@ -1,4 +1,4 @@
-package oop.eventticketingsystem;
+package oop.eventticketingsystem.Tickets;
 
 public class Ticket {
 

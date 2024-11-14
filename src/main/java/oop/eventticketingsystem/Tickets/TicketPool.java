@@ -1,6 +1,7 @@
-package oop.eventticketingsystem;
+package oop.eventticketingsystem.Tickets;
 
 import oop.eventticketingsystem.Configurations.Configuration;
+import oop.eventticketingsystem.Model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,11 +11,12 @@ import static java.util.Collections.synchronizedList;
 public class TicketPool implements TicketHandling{
 
 
-    private int totalTickets;
     private static int totalTicketsCreated = 0;
     public static List<Ticket> ticketPool = synchronizedList(new ArrayList<Ticket>());
+    private final static Configuration configuration = Model.getConfiguration();
+    private static int totalTickets = configuration.getNumberOfTickets();
 
-    public TicketPool(Configuration configuration) {
+    public TicketPool() {
         totalTickets = configuration.getNumberOfTickets();
     }
 
@@ -32,10 +34,10 @@ public class TicketPool implements TicketHandling{
 
     @Override
     public void removeTickets() {
-        if(ticketPool.size() == 0 && totalTicketsCreated == totalTickets){
+        if(ticketPool.isEmpty() && totalTicketsCreated == totalTickets){
             System.out.println("All tickets have been sold out!");
             return;
-        } else if (ticketPool.size() == 0 & totalTicketsCreated != totalTickets) {
+        } else if (ticketPool.isEmpty() & totalTicketsCreated != totalTickets) {
             System.out.println("Waiting for tickets to be released.");
             return;
         }

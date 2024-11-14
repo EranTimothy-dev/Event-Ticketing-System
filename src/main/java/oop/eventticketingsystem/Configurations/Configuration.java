@@ -1,4 +1,7 @@
-package oop.eventticketingsystem;
+package oop.eventticketingsystem.Configurations;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.*;
 
@@ -10,7 +13,9 @@ public class Configuration implements Serializable {
     // number of tickets sold at once
     private int customerRetrievalRate;
     private int maxTicketCapacity;
-    private static final String CONFIG_FILE = "config.txt";
+    private static final String CONFIG_FILE = "src/main/java/oop/eventticketingsystem/configurations/config.json";
+    private static final GsonBuilder builder = new GsonBuilder();
+    private static Gson gson;
 
     public Configuration(int numOfTickets, int releaseRate, int retrievalRate, int ticketCapacity) {
         numberOfTickets = numOfTickets;
@@ -20,13 +25,10 @@ public class Configuration implements Serializable {
     }
 
     public static void saveConfig(Configuration config){
-        try{
-            FileOutputStream file = new FileOutputStream(CONFIG_FILE);
-            ObjectOutputStream serialize = new ObjectOutputStream(file);
-
-            serialize.writeObject(config);
-            serialize.close();
-            file.close();
+        try(Writer writer = new FileWriter(CONFIG_FILE)){
+            builder.setPrettyPrinting();
+            gson = builder.create();
+            gson.toJson(config, writer);
 
         } catch (IOException e){
             System.out.println("Error while saving configuration");
@@ -36,21 +38,11 @@ public class Configuration implements Serializable {
     }
 
     public static Configuration loadConfig(){
-        try{
-            FileInputStream file = new FileInputStream(CONFIG_FILE);
-            ObjectInputStream deserialize = new ObjectInputStream(file);
-
-            Configuration configDetails = (Configuration) deserialize.readObject();
-
-            deserialize.close();
-            file.close();
-            return configDetails;
-
+        try(Reader reader = new FileReader(CONFIG_FILE)){
+            Configuration config = gson.fromJson(reader, Configuration.class);
+            return config;
         } catch (IOException e){
             System.out.println("Error while loading configuration");
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            System.out.println("Couldn't find class in config file");
             throw new RuntimeException(e);
         }
     }

@@ -1,4 +1,9 @@
 package oop.eventticketingsystem;
 
-public class Vendor {
+public class Vendor implements Runnable{
+
+    @Override
+    public void run(){
+
+    }
 }

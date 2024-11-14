@@ -10,7 +10,5 @@ public interface TicketHandling {
     void addTickets();
     
     void removeTickets();
-    
-    List<Integer> tickets = synchronizedList(new ArrayList<Integer>());
-    
+
 }

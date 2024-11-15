@@ -8,6 +8,10 @@ public class Model {
     private static Configuration config;
     private static TicketPool ticketPool;
 
+    public static void setConfiguration(Configuration currentConfig) {
+        config = currentConfig;
+    }
+
     public static synchronized Configuration getConfiguration(){
         if(config == null){
             try{

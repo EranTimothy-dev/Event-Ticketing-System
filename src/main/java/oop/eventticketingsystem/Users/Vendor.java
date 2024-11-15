@@ -6,7 +6,7 @@ import oop.eventticketingsystem.Tickets.TicketPool;
 
 public class Vendor implements Runnable{
 
-    private int ticketReleaseRate;
+    private final int ticketReleaseRate;
     private final Configuration configuration = Model.getConfiguration();
     private final TicketPool ticketPool = Model.getTicketPool();
 

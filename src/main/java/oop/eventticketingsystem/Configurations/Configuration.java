@@ -21,7 +21,12 @@ public class Configuration implements Serializable {
     public Configuration(int numOfTickets, int releaseRate, int retrievalRate, int ticketCapacity) {
         numberOfTickets = numOfTickets;
         ticketReleaseRate = releaseRate;
-        customerRetrievalRate = retrievalRate;
+        if (customerRetrievalRate <= 0){
+            customerRetrievalRate = retrievalRate;
+        } else {
+            customerRetrievalRate = 5;
+        }
+
         maxTicketCapacity = ticketCapacity;
     }
 

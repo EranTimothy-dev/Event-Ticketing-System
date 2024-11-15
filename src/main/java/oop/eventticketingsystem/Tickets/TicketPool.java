@@ -18,7 +18,9 @@ public class TicketPool implements TicketHandling{
     public static List<Ticket> ticketPool = synchronizedList(new ArrayList<Ticket>());
     private final static Configuration configuration = Model.getConfiguration();
     private static int totalTickets = configuration.getNumberOfTickets();
+    private static final int maxCapacity = configuration.getMaxTicketCapacity();
     private boolean limitReached = false;
+    private boolean capacityReached = false;
 
     public TicketPool() {
         totalTickets = configuration.getNumberOfTickets();
@@ -28,9 +30,17 @@ public class TicketPool implements TicketHandling{
     @Override
     public void addTickets() {
         if (!limitReached) {
+            if (ticketPool.size() < maxCapacity) {
+                capacityReached = true;
+            }
             if (totalTicketsCreated >= totalTickets) {
                 System.out.println("Maximum number of tickets reached.");
                 limitReached = true;
+                return;
+            }
+            if (ticketPool.size() >= maxCapacity && !capacityReached) {
+                System.out.println("Max Capacity Reached, waiting for tickets to be sold...");
+                capacityReached = true;
                 return;
             }
             Ticket ticket = new Ticket();
@@ -51,7 +61,7 @@ public class TicketPool implements TicketHandling{
         if(ticketPool.isEmpty() && totalTicketsCreated == totalTickets){
             System.out.println("All tickets have been sold out!");
             exit(0);
-        } else if (ticketPool.isEmpty() & totalTicketsCreated != totalTickets) {
+        } else if (ticketPool.isEmpty() && totalTicketsCreated != totalTickets) {
             System.out.println("Waiting for tickets to be released.");
 //            try{
 //

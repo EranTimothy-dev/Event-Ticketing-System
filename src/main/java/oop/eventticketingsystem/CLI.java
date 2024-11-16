@@ -47,6 +47,7 @@ public class CLI {
                     }
                     if (maximumTicketCapacity <= 0 ){
                         System.out.println("Invalid Input! Ticket Capacity should be greater than 0. Please try again.");
+                        continue;
                     }
                     break;
                 } catch (Exception e){
@@ -71,19 +72,23 @@ public class CLI {
                     System.out.println("Invalid Input! Please enter a valid integer value.");
                 }
             }
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("Customer Retrieval Rate: ");
-            try{
-                customerRetrievalRate = scanner.nextInt();
-                if (customerRetrievalRate > maximumTicketCapacity){
-                    System.out.println("Retrieval Rate cannot be greater than the Maximum Ticket Capacity. Please try again.");
+            while(true){
+                Scanner scanner = new Scanner(System.in);
+                System.out.println("Customer Retrieval Rate: ");
+                try{
+                    customerRetrievalRate = scanner.nextInt();
+                    if (customerRetrievalRate >= maximumTicketCapacity){
+                        System.out.println("Retrieval Rate cannot be greater than the Maximum Ticket Capacity. Please try again.");
+                        continue;
+                    }
+                    if (customerRetrievalRate <= 0 ){
+                        System.out.println("Invalid Input! Retrieval Rate should be greater than 0. Please try again.");
+                        continue;
+                    }
+                    break;
+                } catch(Exception e){
+                    System.out.println("Invalid Input! Please enter a valid integer value.");
                 }
-                if (customerRetrievalRate <= 0 ){
-                    System.out.println("Invalid Input! Retrieval Rate should be greater than 0. Please try again.");
-                }
-                break;
-            } catch(Exception e){
-                System.out.println("Invalid Input! Please enter a valid integer value.");
             }
             break;
         }
@@ -92,14 +97,6 @@ public class CLI {
         Configuration.saveConfig(systemConfigurations);
         Model.setConfiguration(systemConfigurations);
         System.out.println("System configurations saved. Starting system...");
-
-//        Configuration loaded_configs = Configuration.loadConfig();
-//        System.out.println(loaded_configs.getNumberOfTickets());
-//        System.out.println(loaded_configs.getMaxTicketCapacity());
-//        System.out.println(loaded_configs.getCustomerRetrievalRate());
-//        System.out.println(loaded_configs.getTicketReleaseRate());
-
-
 
 
         ScheduledExecutorService service = Executors.newScheduledThreadPool(4);
@@ -113,7 +110,6 @@ public class CLI {
                 vendorService.shutdown();
 
             }
-//            System.out.println("\nVendor thread terminated");
         },0,1, TimeUnit.SECONDS);
 
         service.scheduleAtFixedRate(() -> {
@@ -125,7 +121,6 @@ public class CLI {
                 Thread.currentThread().interrupt();
                 customerService.shutdown();
             }
-//            System.out.println("\nCustomer Thread completed");
         },0,1, TimeUnit.SECONDS);
 
 
@@ -134,7 +129,5 @@ public class CLI {
 
     public static void main(String[] args) throws InterruptedException {
         getConfiguration();
-//        System.out.println("All tasks completed, closing system...");
-//        System.out.println("Have a nice day!");
     }
 }

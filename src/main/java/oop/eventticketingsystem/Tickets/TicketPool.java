@@ -21,6 +21,7 @@ public class TicketPool implements TicketHandling{
     private static final int maxCapacity = configuration.getMaxTicketCapacity();
     private boolean limitReached = false;
     private boolean capacityReached = false;
+    private boolean waitingForTicket = false;
 
     public TicketPool() {
         totalTickets = configuration.getNumberOfTickets();
@@ -31,7 +32,7 @@ public class TicketPool implements TicketHandling{
     public void addTickets() {
         if (!limitReached) {
             if (ticketPool.size() < maxCapacity) {
-                capacityReached = true;
+                capacityReached = false;
             }
             if (totalTicketsCreated >= totalTickets) {
                 System.out.println("Maximum number of tickets reached.");
@@ -46,8 +47,6 @@ public class TicketPool implements TicketHandling{
             Ticket ticket = new Ticket();
             ticketPool.add(ticket);
             totalTicketsCreated++;
-//        System.out.println("Ticket created: " + totalTicketsCreated);
-//        System.out.println("Tickets sold: " + totalTicketsSold);
             System.out.printf("""
                     \nTotal Tickets released: %d
                     Total Tickets sold: %d
@@ -58,26 +57,26 @@ public class TicketPool implements TicketHandling{
 
     @Override
     public void removeTickets() {
-        if(ticketPool.isEmpty() && totalTicketsCreated == totalTickets){
+        if (ticketPool.size() > 0) {
+            waitingForTicket = false;
+        }
+        if(ticketPool.isEmpty() && totalTicketsSold == totalTickets){
             System.out.println("All tickets have been sold out!");
             exit(0);
-        } else if (ticketPool.isEmpty() && totalTicketsCreated != totalTickets) {
+        } else if (ticketPool.isEmpty() && !waitingForTicket) {
             System.out.println("Waiting for tickets to be released.");
-//            try{
-//
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-        }else{
-            totalTicketsSold++;
-            ticketPool.remove(ticketPool.size() - 1);
-//            System.out.println("Ticket created: " + totalTicketsCreated);
-//            System.out.println("Ticket sold: "+ totalTicketsSold);
-            System.out.printf("""
-                    \nTotal Tickets released: %d
-                    Total Tickets sold: %d
-                    Tickets Remaining: %d\n""", totalTicketsCreated, totalTicketsSold, totalTicketsCreated - totalTicketsSold);
+            waitingForTicket = true;
+            return;
         }
+        if (ticketPool.isEmpty() && waitingForTicket) {
+            return;
+        }
+        totalTicketsSold++;
+        ticketPool.remove(ticketPool.size() - 1);
+        System.out.printf("""
+                \nTotal Tickets released: %d
+                Total Tickets sold: %d
+                Tickets Remaining: %d\n""", totalTicketsCreated, totalTicketsSold, totalTicketsCreated - totalTicketsSold);
     }
 
 

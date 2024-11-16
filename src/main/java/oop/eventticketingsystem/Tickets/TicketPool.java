@@ -61,7 +61,8 @@ public class TicketPool implements TicketHandling{
             waitingForTicket = false;
         }
         if(ticketPool.isEmpty() && totalTicketsSold == totalTickets){
-            System.out.println("All tickets have been sold out!");
+            System.out.println("\nAll tickets have been sold out!");
+            System.out.println("Exiting System... Have a nice day!");
             exit(0);
         } else if (ticketPool.isEmpty() && !waitingForTicket) {
             System.out.println("Waiting for tickets to be released.");

@@ -10,6 +10,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static java.lang.System.exit;
+
 public class CLI {
 
     public static Scanner scanner;
@@ -17,6 +19,8 @@ public class CLI {
     public static int maximumTicketCapacity;
     public static int ticketsReleaseRate;
     public static int customerRetrievalRate;
+    private static boolean vendorCompleted = false;
+    private static boolean customerCompleted = false;
 
     public static void getConfiguration() throws InterruptedException {
         while(true){
@@ -74,7 +78,7 @@ public class CLI {
             }
             while(true){
                 Scanner scanner = new Scanner(System.in);
-                System.out.println("Customer Retrieval Rate: ");
+                System.out.print("Customer Retrieval Rate: ");
                 try{
                     customerRetrievalRate = scanner.nextInt();
                     if (customerRetrievalRate >= maximumTicketCapacity){
@@ -99,7 +103,7 @@ public class CLI {
         System.out.println("System configurations saved. Starting system...");
 
 
-        ScheduledExecutorService service = Executors.newScheduledThreadPool(4);
+        ScheduledExecutorService service = Executors.newScheduledThreadPool(2);
         service.scheduleAtFixedRate(() -> {
             ExecutorService vendorService = null;
             try {
@@ -108,7 +112,7 @@ public class CLI {
             } finally {
                 Thread.currentThread().interrupt();
                 vendorService.shutdown();
-
+                vendorCompleted = true;
             }
         },0,1, TimeUnit.SECONDS);
 
@@ -120,8 +124,10 @@ public class CLI {
             } finally {
                 Thread.currentThread().interrupt();
                 customerService.shutdown();
+                customerCompleted = true;
             }
         },0,1, TimeUnit.SECONDS);
+
 
 
     }

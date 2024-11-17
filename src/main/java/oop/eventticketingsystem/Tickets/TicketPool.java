@@ -29,7 +29,7 @@ public class TicketPool implements TicketHandling{
 
 
     @Override
-    public void addTickets() {
+    public synchronized void addTickets() {
         if (!limitReached) {
             if (ticketPool.size() < maxCapacity) {
                 capacityReached = false;
@@ -56,7 +56,7 @@ public class TicketPool implements TicketHandling{
     }
 
     @Override
-    public void removeTickets() {
+    public synchronized void removeTickets() {
         if (ticketPool.size() > 0) {
             waitingForTicket = false;
         }

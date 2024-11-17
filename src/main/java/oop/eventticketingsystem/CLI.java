@@ -8,6 +8,8 @@ import java.util.Scanner;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static java.lang.System.exit;
+
 
 public class CLI {
 
@@ -108,22 +110,28 @@ public class CLI {
             try {
                 vendorService = Executors.newFixedThreadPool(systemConfigurations.getTicketReleaseRate());
                 vendorService.execute(new Vendor());
+//                Thread.sleep(4000);
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
             } finally {
                 Thread.currentThread().interrupt();
                 vendorService.shutdown();
             }
-        },0,1, TimeUnit.SECONDS);
+        },0,4, TimeUnit.SECONDS);
 
         service.scheduleAtFixedRate(() -> {
             ExecutorService customerService = null;
             try {
                 customerService = Executors.newFixedThreadPool(systemConfigurations.getCustomerRetrievalRate());
                 customerService.execute(new Customer());
+//                Thread.sleep(4000);
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
             } finally {
                 Thread.currentThread().interrupt();
                 customerService.shutdown();
             }
-        },0,1, TimeUnit.SECONDS);
+        },0,4, TimeUnit.SECONDS);
 
     }
 
@@ -132,22 +140,61 @@ public class CLI {
     public static void main(String[] args) throws InterruptedException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome To The Event Ticketing System!");
+        ExecutorService asyncThread = Executors.newFixedThreadPool(1);
+        Future<?> futureTask;
+
         while (true){
             System.out.println("""
                 1. Add new configurations and start system
                 2. Load from existing system configurations and start system
-                3. Add configurations.\n""");
+                3. Add configurations.
+                4. Exit\n""");
             System.out.print("Enter your choice(1-2): ");
             String option = scanner.nextLine();
             if (option.equals("1")) {
                 getConfiguration();
-                startSystem();
+                futureTask = asyncThread.submit(new Callable<>() {
+
+                    @Override
+                    public Object call() throws Exception {
+                        System.out.println("Press Enter to stop the system. (Please wait while system handles incomplete processes to terminate, Thank you.)");
+                        scanner.nextLine();
+                        return null;
+                    }
+                });
+                Thread.sleep(2000);
+                while (!futureTask.isDone()) {
+                    startSystem();
+                }
+                Thread.currentThread().interrupt();
+                asyncThread.shutdown();
+                Runtime.getRuntime().exit(0);
+                exit(0);
                 break;
             } else if (option.equals("2")) {
-                startSystem();
+                futureTask = asyncThread.submit(new Callable<>() {
+
+                    @Override
+                    public Object call() throws Exception {
+                        System.out.println("Press Enter to stop the system. (Please wait while system handles incomplete processes to terminate, Thank you.)");
+                        scanner.nextLine();
+                        return null;
+                    }
+                });
+                Thread.sleep(2000);
+                while (!futureTask.isDone()) {
+                    startSystem();
+                }
+                Thread.currentThread().interrupt();
+                asyncThread.shutdown();
+                Runtime.getRuntime().exit(0);
+                exit(0);
                 break;
             } else if (option.equals("3")) {
                 getConfiguration();
+            } else if (option.equals("4")) {
+                System.out.println("Exiting system... Have a nice day!");
+                exit(0);
             } else {
                 System.out.println("Invalid Option! Enter 1 or 2.\n");
             }

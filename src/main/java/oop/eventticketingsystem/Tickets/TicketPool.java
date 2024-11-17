@@ -5,7 +5,6 @@ import oop.eventticketingsystem.Model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static java.lang.System.exit;
 import static java.util.Collections.synchronizedList;

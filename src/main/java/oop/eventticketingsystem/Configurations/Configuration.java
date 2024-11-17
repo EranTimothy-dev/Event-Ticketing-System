@@ -2,8 +2,6 @@ package oop.eventticketingsystem.Configurations;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import oop.eventticketingsystem.Model;
-
 import java.io.*;
 
 public class Configuration implements Serializable {
@@ -21,11 +19,6 @@ public class Configuration implements Serializable {
     public Configuration(int numOfTickets, int releaseRate, int retrievalRate, int ticketCapacity) {
         numberOfTickets = numOfTickets;
         ticketReleaseRate = releaseRate;
-//        if (customerRetrievalRate <= 0){
-//            customerRetrievalRate = retrievalRate;
-//        } else {
-//            customerRetrievalRate = 5;
-//        }
         customerRetrievalRate = retrievalRate;
         maxTicketCapacity = ticketCapacity;
     }

@@ -6,8 +6,6 @@ import oop.eventticketingsystem.Users.Vendor;
 
 import java.util.Scanner;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import static java.lang.System.exit;
 
 
@@ -110,9 +108,6 @@ public class CLI {
             try {
                 vendorService = Executors.newFixedThreadPool(systemConfigurations.getTicketReleaseRate());
                 vendorService.execute(new Vendor());
-//                Thread.sleep(4000);
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
             } finally {
                 Thread.currentThread().interrupt();
                 vendorService.shutdown();
@@ -124,9 +119,6 @@ public class CLI {
             try {
                 customerService = Executors.newFixedThreadPool(systemConfigurations.getCustomerRetrievalRate());
                 customerService.execute(new Customer());
-//                Thread.sleep(4000);
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
             } finally {
                 Thread.currentThread().interrupt();
                 customerService.shutdown();

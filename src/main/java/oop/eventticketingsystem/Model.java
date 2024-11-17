@@ -18,7 +18,7 @@ public class Model {
                 config = Configuration.loadConfig();
             } catch (RuntimeException e){
                 System.out.println("Error while loading configuration");
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
         return config;

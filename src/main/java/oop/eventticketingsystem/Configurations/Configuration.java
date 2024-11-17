@@ -14,7 +14,7 @@ public class Configuration implements Serializable {
     // number of tickets sold at once
     private int customerRetrievalRate;
     private int maxTicketCapacity;
-    private static final String CONFIG_FILE = "src/main/java/oop/eventticketingsystem/configurations/config.json";
+    private static final String CONFIG_FILE = "src/main/java/oop/eventticketingsystem/Configurations/config.json";
     private static final GsonBuilder builder = new GsonBuilder();
     private static Gson gson;
 
@@ -46,6 +46,7 @@ public class Configuration implements Serializable {
     public static Configuration loadConfig(){
         try(Reader reader = new FileReader(CONFIG_FILE)){
             Configuration config;
+            gson = new Gson();
             config = gson.fromJson(reader, Configuration.class);
             return config;
         } catch (IOException e){

@@ -21,12 +21,12 @@ public class Configuration implements Serializable {
     public Configuration(int numOfTickets, int releaseRate, int retrievalRate, int ticketCapacity) {
         numberOfTickets = numOfTickets;
         ticketReleaseRate = releaseRate;
-        if (customerRetrievalRate <= 0){
-            customerRetrievalRate = retrievalRate;
-        } else {
-            customerRetrievalRate = 5;
-        }
-
+//        if (customerRetrievalRate <= 0){
+//            customerRetrievalRate = retrievalRate;
+//        } else {
+//            customerRetrievalRate = 5;
+//        }
+        customerRetrievalRate = retrievalRate;
         maxTicketCapacity = ticketCapacity;
     }
 
@@ -45,7 +45,7 @@ public class Configuration implements Serializable {
 
     public static Configuration loadConfig(){
         try(Reader reader = new FileReader(CONFIG_FILE)){
-            Configuration config = Model.getConfiguration();
+            Configuration config;
             config = gson.fromJson(reader, Configuration.class);
             return config;
         } catch (IOException e){

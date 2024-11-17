@@ -5,12 +5,9 @@ import oop.eventticketingsystem.Users.Customer;
 import oop.eventticketingsystem.Users.Vendor;
 
 import java.util.Scanner;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-import static java.lang.System.exit;
 
 public class CLI {
 
@@ -19,8 +16,6 @@ public class CLI {
     public static int maximumTicketCapacity;
     public static int ticketsReleaseRate;
     public static int customerRetrievalRate;
-    private static boolean vendorCompleted = false;
-    private static boolean customerCompleted = false;
 
     public static void getConfiguration() throws InterruptedException {
         while(true){
@@ -112,7 +107,6 @@ public class CLI {
             } finally {
                 Thread.currentThread().interrupt();
                 vendorService.shutdown();
-                vendorCompleted = true;
             }
         },0,1, TimeUnit.SECONDS);
 
@@ -124,16 +118,14 @@ public class CLI {
             } finally {
                 Thread.currentThread().interrupt();
                 customerService.shutdown();
-                customerCompleted = true;
             }
         },0,1, TimeUnit.SECONDS);
-
-
-
     }
 
 
     public static void main(String[] args) throws InterruptedException {
+        System.out.println("Welcome To The Event Ticketing System!");
         getConfiguration();
+
     }
 }

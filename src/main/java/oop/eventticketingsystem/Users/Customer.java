@@ -19,11 +19,6 @@ public class Customer implements Runnable{
         for(int i = 0; i < customerRetrievalRate; i++){
             TicketPool ticketPool = Model.getTicketPool();
             ticketPool.removeTickets();
-            try {
-                Thread.sleep(config.getCustomerRetrievalRate() * 1000L);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
         }
     }
 }

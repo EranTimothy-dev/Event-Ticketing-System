@@ -106,24 +106,24 @@ public class CLI {
         service.scheduleAtFixedRate(() -> {
             ExecutorService vendorService = null;
             try {
-                vendorService = Executors.newFixedThreadPool(2);
+                vendorService = Executors.newFixedThreadPool(systemConfigurations.getTicketReleaseRate());
                 vendorService.execute(new Vendor());
             } finally {
                 Thread.currentThread().interrupt();
                 vendorService.shutdown();
             }
-        },systemConfigurations.getTicketReleaseRate(),1, TimeUnit.SECONDS);
+        },0,4, TimeUnit.SECONDS);
 
         service.scheduleAtFixedRate(() -> {
             ExecutorService customerService = null;
             try {
-                customerService = Executors.newFixedThreadPool(2);
+                customerService = Executors.newFixedThreadPool(systemConfigurations.getCustomerRetrievalRate());
                 customerService.execute(new Customer());
             } finally {
                 Thread.currentThread().interrupt();
                 customerService.shutdown();
             }
-        }, systemConfigurations.getCustomerRetrievalRate(), 1, TimeUnit.SECONDS);
+        },0,4, TimeUnit.SECONDS);
 
     }
 
@@ -141,7 +141,7 @@ public class CLI {
                 2. Load from existing system configurations and start system
                 3. Add configurations.
                 4. Exit\n""");
-            System.out.print("Enter your choice(1-4): ");
+            System.out.print("Enter your choice(1-2): ");
             String option = scanner.nextLine();
             if (option.equals("1")) {
                 getConfiguration();
@@ -188,7 +188,7 @@ public class CLI {
                 System.out.println("Exiting system... Have a nice day!");
                 exit(0);
             } else {
-                System.out.println("Invalid Option! Enter 1 - 4.\n");
+                System.out.println("Invalid Option! Enter 1 or 2.\n");
             }
         }
     }

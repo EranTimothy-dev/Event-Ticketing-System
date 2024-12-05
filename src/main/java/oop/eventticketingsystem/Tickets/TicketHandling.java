@@ -2,8 +2,9 @@ package oop.eventticketingsystem.Tickets;
 
 public interface TicketHandling {
     
-    void addTickets();
-    
+
+    void addTickets(Ticket ticket);
+
     void removeTickets();
 
 }

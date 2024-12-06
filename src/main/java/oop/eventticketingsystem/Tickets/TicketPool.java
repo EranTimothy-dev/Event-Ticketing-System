@@ -29,6 +29,13 @@ public class TicketPool implements TicketHandling{
 
     @Override
     public synchronized void addTickets() {
+        while (ticketPool.size() >= maxCapacity || limitReached) { // Condition to wait
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
         if (!limitReached) {
             if (ticketPool.size() < maxCapacity) {
                 capacityReached = false;
@@ -46,16 +53,29 @@ public class TicketPool implements TicketHandling{
             Ticket ticket = new Ticket();
             ticketPool.add(ticket);
             totalTicketsCreated++;
+            notifyAll();
             System.out.printf("""
                     \nTotal Tickets released: %d
                     Total Tickets sold: %d
                     Tickets Remaining: %d\n""", totalTicketsCreated, totalTicketsSold, totalTicketsCreated - totalTicketsSold);
-
+            notifyAll();
+            try{
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
     @Override
     public synchronized void removeTickets() {
+        while (ticketPool.isEmpty() && totalTicketsSold < totalTickets) { // Condition to wait
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
         if (ticketPool.size() > 0) {
             waitingForTicket = false;
         }
@@ -77,6 +97,12 @@ public class TicketPool implements TicketHandling{
                 \nTotal Tickets released: %d
                 Total Tickets sold: %d
                 Tickets Remaining: %d\n""", totalTicketsCreated, totalTicketsSold, totalTicketsCreated - totalTicketsSold);
+        notifyAll();
+        try{
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

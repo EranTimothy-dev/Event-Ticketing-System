@@ -140,7 +140,7 @@ public class CLI {
                 2. Load from existing system configurations and start system
                 3. Add configurations.
                 4. Exit\n""");
-            System.out.print("Enter your choice(1-2): ");
+            System.out.print("Enter your choice(1-4): ");
             String option = scanner.nextLine();
             if (option.equals("1")) {
                 getConfiguration();
@@ -188,7 +188,7 @@ public class CLI {
                 System.out.println("Exiting system... Have a nice day!");
                 exit(0);
             } else {
-                System.out.println("Invalid Option! Enter 1 or 2.\n");
+                System.out.println("Invalid Option! Enter an option between 1 - 4.\n");
             }
         }
     }

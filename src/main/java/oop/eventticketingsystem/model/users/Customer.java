@@ -1,9 +1,8 @@
-package oop.eventticketingsystem.Users;
+package oop.eventticketingsystem.model.users;
 
-import oop.eventticketingsystem.Configurations.Configuration;
-import oop.eventticketingsystem.Model;
-import oop.eventticketingsystem.Tickets.TicketPool;
-import org.springframework.boot.context.annotation.Configurations;
+import oop.eventticketingsystem.model.configurations.Configuration;
+import oop.eventticketingsystem.model.Model;
+import oop.eventticketingsystem.model.tickets.TicketPool;
 
 public class Customer implements Runnable{
 

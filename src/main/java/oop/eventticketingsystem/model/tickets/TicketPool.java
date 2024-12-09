@@ -1,7 +1,7 @@
-package oop.eventticketingsystem.Tickets;
+package oop.eventticketingsystem.model.tickets;
 
-import oop.eventticketingsystem.Configurations.Configuration;
-import oop.eventticketingsystem.Model;
+import oop.eventticketingsystem.model.configurations.Configuration;
+import oop.eventticketingsystem.model.Model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,7 @@ import static java.lang.System.exit;
 import static java.util.Collections.synchronizedList;
 
 public class TicketPool implements TicketHandling{
+
 
 
     private static int totalTicketsCreated = 0;
@@ -26,6 +27,17 @@ public class TicketPool implements TicketHandling{
         totalTickets = configuration.getNumberOfTickets();
     }
 
+    public static int getTotalTicketsCreated() {
+        return totalTicketsCreated;
+    }
+
+    public static int getTotalTicketsSold() {
+        return totalTicketsSold;
+    }
+
+    public static int getAvailableTickets() {
+        return totalTickets - totalTicketsCreated;
+    }
 
     @Override
     public synchronized void addTickets() {

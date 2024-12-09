@@ -1,4 +1,4 @@
-package oop.eventticketingsystem.Tickets;
+package oop.eventticketingsystem.model.tickets;
 
 public interface TicketHandling {
     

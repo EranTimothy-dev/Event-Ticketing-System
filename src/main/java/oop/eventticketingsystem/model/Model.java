@@ -1,7 +1,7 @@
-package oop.eventticketingsystem;
+package oop.eventticketingsystem.model;
 
-import oop.eventticketingsystem.Configurations.Configuration;
-import oop.eventticketingsystem.Tickets.TicketPool;
+import oop.eventticketingsystem.model.configurations.Configuration;
+import oop.eventticketingsystem.model.tickets.TicketPool;
 
 public class Model {
 

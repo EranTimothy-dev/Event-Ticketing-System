@@ -1,22 +1,41 @@
-package oop.eventticketingsystem.Configurations;
+package oop.eventticketingsystem.model.configurations;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.Getter;
+//import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 import java.io.*;
 
+@Entity
+//@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 public class Configuration implements Serializable {
 
+    @Id
+    private int configId;
     private int numberOfTickets;
     // number tickets released at once
     private int ticketReleaseRate;
     // number of tickets sold at once
     private int customerRetrievalRate;
     private int maxTicketCapacity;
-    private static final String CONFIG_FILE = "src/main/java/oop/eventticketingsystem/Configurations/config.json";
+//    private static final String CONFIG_FILE = "src/main/java/oop/eventticketingsystem/configurations/config.json";
+    private static final String CONFIG_FILE = "src/main/resources/config.json";
     private static final GsonBuilder builder = new GsonBuilder();
     private static Gson gson;
 
+
+    public Configuration(){}
+
     public Configuration(int numOfTickets, int releaseRate, int retrievalRate, int ticketCapacity) {
+        configId = 1;
         numberOfTickets = numOfTickets;
         ticketReleaseRate = releaseRate;
         customerRetrievalRate = retrievalRate;
@@ -47,8 +66,6 @@ public class Configuration implements Serializable {
             throw new RuntimeException(e);
         }
     }
-
-
 
     public int getNumberOfTickets() {
         return numberOfTickets;

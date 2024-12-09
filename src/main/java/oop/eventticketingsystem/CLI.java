@@ -1,8 +1,9 @@
 package oop.eventticketingsystem;
 
-import oop.eventticketingsystem.Configurations.Configuration;
-import oop.eventticketingsystem.Users.Customer;
-import oop.eventticketingsystem.Users.Vendor;
+import oop.eventticketingsystem.model.configurations.Configuration;
+import oop.eventticketingsystem.model.Model;
+import oop.eventticketingsystem.model.users.Customer;
+import oop.eventticketingsystem.model.users.Vendor;
 
 import java.util.Scanner;
 import java.util.concurrent.*;

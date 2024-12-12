@@ -2,7 +2,7 @@ package oop.eventticketingsystem.model.tickets;
 
 public interface TicketHandling {
     
-    void addTickets();
+    int[] addTickets();
     
     void removeTickets();
 

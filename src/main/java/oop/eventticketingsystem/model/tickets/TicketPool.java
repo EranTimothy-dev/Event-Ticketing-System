@@ -36,11 +36,12 @@ public class TicketPool implements TicketHandling{
     }
 
     public static int getAvailableTickets() {
-        return totalTickets - totalTicketsCreated;
+        return totalTicketsCreated - totalTicketsSold;
     }
 
+
     @Override
-    public synchronized void addTickets() {
+    public synchronized int[] addTickets() {
         while (ticketPool.size() >= maxCapacity || limitReached) { // Condition to wait
             try {
                 wait();
@@ -55,17 +56,16 @@ public class TicketPool implements TicketHandling{
             if (totalTicketsCreated >= totalTickets) {
                 System.out.println("Maximum number of tickets reached.");
                 limitReached = true;
-                return;
+                return null;
             }
             if (ticketPool.size() >= maxCapacity && !capacityReached) {
                 System.out.println("Max Capacity Reached, waiting for tickets to be sold...");
                 capacityReached = true;
-                return;
+                return null;
             }
             Ticket ticket = new Ticket();
             ticketPool.add(ticket);
             totalTicketsCreated++;
-            notifyAll();
             System.out.printf("""
                     \nTotal Tickets released: %d
                     Total Tickets sold: %d
@@ -77,6 +77,7 @@ public class TicketPool implements TicketHandling{
                 throw new RuntimeException(e);
             }
         }
+        return null;
     }
 
     @Override

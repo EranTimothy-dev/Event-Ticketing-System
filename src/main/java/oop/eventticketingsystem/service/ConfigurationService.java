@@ -24,7 +24,4 @@ public class ConfigurationService {
         configRepo.save(config);// update configuration in the database
     }
 
-//    public Configuration getSystemConfiguration(int id) {
-//
-//    }
 }

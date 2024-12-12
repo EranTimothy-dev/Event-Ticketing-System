@@ -13,6 +13,8 @@ public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ticId;
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    private int ticketNum;
 
     public Ticket(){}
 

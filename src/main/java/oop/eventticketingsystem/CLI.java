@@ -165,7 +165,7 @@ public class CLI {
                     Thread.currentThread().interrupt();
                     Runtime.getRuntime().exit(0);
                 }));
-                asyncThread.shutdown();
+                asyncThread.shutdownNow();
                 exit(0);
                 break;
             } else if (option.equals("2")) {
